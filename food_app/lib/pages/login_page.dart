@@ -6,6 +6,7 @@ import '../widgets/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:firebase_auth/firebase_auth.dart';
+import './nav_bar.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -205,8 +206,7 @@ class PasswordInput extends StatelessWidget {
           color: Colors.grey[400]?.withOpacity(0.5),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: TextFormField(
-          // ignore: prefer_const_constructors
+        child: TextFormField( 
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             border: InputBorder.none,
@@ -231,19 +231,24 @@ class PasswordInput extends StatelessWidget {
 }
 
 class MyApp extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
     return MaterialApp(
-      // ignore: prefer_const_constructors
+      routes: {
+        '/login': (context) => LoginPage(),
+        // Add other routes here
+      },
       home: Scaffold(
+        
         backgroundColor: Colors.transparent,
+        drawer: NavBar(auth: auth),
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          // leading: IconButton(
+          //   icon: Icon(Icons.arrow_back),
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
           title: Text('My Food App'),
           centerTitle: true,
           backgroundColor: Color.fromARGB(255, 2, 92, 5),
