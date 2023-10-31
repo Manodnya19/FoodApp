@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:food_app/pages/profile.dart';
 class NavBar extends StatelessWidget {
   final FirebaseAuth auth;
+  final String displayName;
+  final String email;
 
-  NavBar({required this.auth});
+  NavBar({required this.auth,required this.displayName,
+    required this.email,});
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -11,11 +15,43 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Drawer Header'),
-             decoration: BoxDecoration(
-               color: Color.fromARGB(255, 2, 92, 5),
-             ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    // Navigate to the profile page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfilePage(
+                          displayName: displayName,
+                          email: email,
+                        ),
+                      ),
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.blue,
+                    child: Text(
+                      displayName[0],
+                      style: TextStyle(fontSize: 30, color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(displayName, style: TextStyle(fontSize: 18, color: Colors.white)),
+                Text(email, style: TextStyle(fontSize: 14, color: Colors.white)),
+              ],
+            ),
           ),
+            // child: Text('Drawer Header'),
+            //  decoration: BoxDecoration(
+            //    color: Color.fromARGB(255, 2, 92, 5),
+            //  ),
+          
           ListTile(
             title: Text('Home'),
             onTap: () {

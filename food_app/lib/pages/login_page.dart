@@ -233,6 +233,7 @@ class PasswordInput extends StatelessWidget {
 class MyApp extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
   Widget build(BuildContext context) {
+    final user = auth.currentUser;
     return MaterialApp(
       routes: {
         '/login': (context) => LoginPage(),
@@ -241,7 +242,8 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         
         backgroundColor: Colors.transparent,
-        drawer: NavBar(auth: auth),
+        drawer: NavBar(auth: auth,displayName: user?.displayName ?? 'Guest',
+  email: user?.email ?? '',),
         appBar: AppBar(
           // leading: IconButton(
           //   icon: Icon(Icons.arrow_back),
