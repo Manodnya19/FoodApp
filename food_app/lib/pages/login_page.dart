@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:food_app/palatte.dart';
 import '../widgets/widgets.dart';
@@ -7,6 +9,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:firebase_auth/firebase_auth.dart';
 import './nav_bar.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -232,6 +236,23 @@ class PasswordInput extends StatelessWidget {
 
 class MyApp extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  Future<void> _pickImageFromCamera() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      // Do something with the picked image
+      final image = File(pickedFile.path);
+    }
+  }
+  
+  Future<void> _pickImageFromGallery() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      // Do something with the picked image
+      final image = File(pickedFile.path);
+    }
+  }
+
+
   Widget build(BuildContext context) {
     final user = auth.currentUser;
     return MaterialApp(
@@ -254,7 +275,24 @@ class MyApp extends StatelessWidget {
           title: Text('My Food App'),
           centerTitle: true,
           backgroundColor: Color.fromARGB(255, 2, 92, 5),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                // Call the function to pick an image from the camera
+                _pickImageFromCamera();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.photo),
+              onPressed: () {
+                // Call the function to pick an image from the gallery
+                _pickImageFromGallery();
+              },
+            ),
+          ],
         ),
+        
         body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
@@ -268,4 +306,5 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+  
 }

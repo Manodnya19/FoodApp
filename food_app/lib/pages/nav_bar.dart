@@ -21,7 +21,6 @@ class NavBar extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    // Navigate to the profile page
                     Navigator.push(
                       context,
                       MaterialPageRoute(
