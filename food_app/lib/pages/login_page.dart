@@ -235,6 +235,15 @@ class PasswordInput extends StatelessWidget {
 }
 
 class MyApp extends StatelessWidget {
+  final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+  onPrimary: Colors.black87,
+  primary: Colors.grey[300],
+  minimumSize: Size(88, 36),
+  padding: EdgeInsets.symmetric(horizontal: 16),
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(2)),
+  ),
+);
   final FirebaseAuth auth = FirebaseAuth.instance;
   Future<void> _pickImageFromCamera() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -247,7 +256,6 @@ class MyApp extends StatelessWidget {
   Future<void> _pickImageFromGallery() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      // Do something with the picked image
       final image = File(pickedFile.path);
     }
   }
@@ -257,8 +265,7 @@ class MyApp extends StatelessWidget {
     final user = auth.currentUser;
     return MaterialApp(
       routes: {
-        '/login': (context) => LoginPage(),
-        // Add other routes here
+        '/login': (context) => LoginPage(),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
       },
       home: Scaffold(
         
@@ -293,18 +300,46 @@ class MyApp extends StatelessWidget {
           ],
         ),
         
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Closing bracket for Stack widget
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
                   image: AssetImage('assets/images/green.jpg'),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.2),
                     BlendMode.darken,
-                  ))),
+                  ),
+                ),
+              ),
+            ), // Closing bracket for Container widget
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                    style: raisedButtonStyle,
+                    onPressed: _pickImageFromCamera,
+                    child: Text('Take a picture'),
+                  ),
+                  ElevatedButton(
+                    style: raisedButtonStyle,
+                    onPressed: _pickImageFromGallery,
+                    child: Text('Choose from gallery'),
+                  ),
+                ],
+              ),
+            ), // Closing bracket for Center widget
+          ],
         ),
       ),
     );
+        
+      
+    
   }
   
 }
