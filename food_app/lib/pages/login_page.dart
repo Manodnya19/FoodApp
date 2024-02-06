@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:food_app/pages/ImageConfirmationPage.dart';
 import 'package:food_app/palatte.dart';
 import '../widgets/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -35,9 +36,10 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   height: 150,
                   child: Center(
-                    child: Text(
-                      'NutriChkr',
-                      style: kHeading,
+                    child: Image.asset(
+                      'assets/images/logo2.png',
+                      height: 240,  
+                      width: 240,
                     ),
                   ),
                 ),
@@ -245,11 +247,17 @@ class MyApp extends StatelessWidget {
   ),
 );
   final FirebaseAuth auth = FirebaseAuth.instance;
-  Future<void> _pickImageFromCamera() async {
+  Future<void> _pickImageFromCamera(BuildContext context) async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
-      // Do something with the picked image
       final image = File(pickedFile.path);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ImageConfirmationPage(capturedImage: image),
+      ),
+    );
+
     }
   }
   
@@ -286,14 +294,13 @@ class MyApp extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.camera),
               onPressed: () {
-                // Call the function to pick an image from the camera
-                _pickImageFromCamera();
+                _pickImageFromCamera(context);
               },
             ),
             IconButton(
               icon: Icon(Icons.photo),
               onPressed: () {
-                // Call the function to pick an image from the gallery
+
                 _pickImageFromGallery();
               },
             ),
@@ -310,7 +317,7 @@ class MyApp extends StatelessWidget {
                   image: AssetImage('assets/images/green.jpg'),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.2),
+                    Colors.black.withOpacity(0.8),
                     BlendMode.darken,
                   ),
                 ),
@@ -320,16 +327,79 @@ class MyApp extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ElevatedButton(
-                    style: raisedButtonStyle,
-                    onPressed: _pickImageFromCamera,
-                    child: Text('Take a picture'),
+                    Container(
+                      height: 300,  // Set the height and width to be equal for a square box
+                        width: 300,
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.black,  // Set the border color
+                            width: 4.0,  // Set the border width
+                          ),
+                        ),
+                        child: Text(
+                          'Capture or select an image of your food item to get nutritional information.',
+                          style: TextStyle(fontSize: 35, color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                  SizedBox(height: 20),
+                   Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(child: 
+                      ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                  primary: const Color.fromARGB(255, 114, 76, 175), // Background color
+                  onPrimary: Colors.white, // Text color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  ElevatedButton(
-                    style: raisedButtonStyle,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                  ),
+                  //  onPressed: _pickImageFromCamera(context),
+                  onPressed: () async {
+                    await _pickImageFromCamera(context);
+                  },
+                child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.camera),
+                                  SizedBox(width: 4),
+                                  Text('Take a picture'),
+                                ],
+                              ),
+                  //  child: Text('Take a picture'),
+                  ),
+                      ),
+                   
+                  SizedBox(width: 16),
+                  Expanded(child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                  primary: Colors.green, // Background color
+                  onPrimary: Colors.white, // Text color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                  ),
                     onPressed: _pickImageFromGallery,
-                    child: Text('Choose from gallery'),
+                  child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.photo),
+                                  SizedBox(width: 4),
+                                  Text('Choose from gallery'),
+                                ],
+                              ),
+                    //child: Text('Choose from gallery'),
                   ),
+                  )
+                  
+                ]
+              )
                 ],
               ),
             ), // Closing bracket for Center widget
