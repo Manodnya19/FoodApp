@@ -20,9 +20,10 @@ class BackgroundImage extends StatelessWidget {
                   image: AssetImage('assets/images/green.jpg'),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.2),
+                    Colors.black.withOpacity(0),
                     BlendMode.darken,
-                  ))),
+                  )
+                  )),
         ));
   }
 }
