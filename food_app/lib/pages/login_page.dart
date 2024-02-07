@@ -33,7 +33,8 @@ class _LoginPageState extends State<LoginPage> {
           body: SafeArea(
             child: Column(
               children: [
-                Container(
+                Padding(padding: const EdgeInsets.symmetric(vertical: 40),
+                child: Container(
                   height: 150,
                   child: Center(
                     child: Image.asset(
@@ -42,9 +43,9 @@ class _LoginPageState extends State<LoginPage> {
                       width: 240,
                     ),
                   ),
-                ),
+                ),),
                 SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
